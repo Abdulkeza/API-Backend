@@ -2,7 +2,7 @@ import { Router } from "express";
 import bcryptjs from "bcryptjs";
 import jsonwebtoken from "jsonwebtoken";
 
-import { User } from "../model/User.js";
+import { User as User } from "../model/User.js";
 import { registerValidation, loginValidation } from "../validation.js";
 
 //!!VALIDATION
@@ -40,13 +40,11 @@ router.post("/register", async (req, res) => {
   try {
     const savedUser = await user.save();
     // res.send(savedUser);  //this send back All staff for user like names, email, pswd
-    console.log(savedUser);
-    return res.status(200).json({
+    res.json({
       user: savedUser._id,
     });
   } catch (error) {
-    console.log(error);
-    return res.status(400).json({ error });
+    res.status(400).send(error);
   }
 });
 
@@ -71,7 +69,7 @@ router.post("/login", async (req, res) => {
 
   //Create and assign a token to the legged user
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  res.status(200).json({ "auth-token": token }); // adding token to the header for a user'
+  res.status(200).json({ "auth-token": token }); // adding token to the header to the user'
 
   // res.send("\nLogged In!");
 });
