@@ -1,15 +1,14 @@
 import { Router } from "express";
-import bcryptjs from "bcryptjs";
-import jsonwebtoken from "jsonwebtoken";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
-import { User as User } from "../model/User.js";
+import { User } from "../model/User.js";
 import { registerValidation, loginValidation } from "../validation.js";
 
 //!!VALIDATION
 
 const router = Router();
-const bcrypt = bcryptjs;
-const jwt = jsonwebtoken;
+// const jwt = jsonwebtoken;
 
 router.post("/register", async (req, res) => {
   //VALIDATING THE DATA BEFORE USER CREATED
@@ -41,7 +40,7 @@ router.post("/register", async (req, res) => {
     const savedUser = await user.save();
     // res.send(savedUser);  //this send back All staff for user like names, email, pswd
     res.json({
-      user: savedUser._id,
+      user: user._id,
     });
   } catch (error) {
     res.status(400).send(error);
