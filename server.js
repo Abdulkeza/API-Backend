@@ -15,16 +15,7 @@ import { router as postRoute } from "./routes/posts.js";
 
 const app = express();
 
-//connect to blog db
-// const dbUrlBlog =
-//   "mongodb+srv://ME:me12@adeoapp.ptq5s.mongodb.net/adeoDb?retryWrites=true&w=majority";
-// mongoose
-//   .connect(dbUrlBlog, { useNewUrlParser: true, useUnifiedTopology: true })
-//   .then((result) => {
-//     // app.listen(5000, ()=>{console.log(`listenning on 5000`)});
 
-//     console.log("Blog DB connected");
-//   })
 
 //connect to DB
 const dbURI = process.env.DB_CONNECT;
