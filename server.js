@@ -1,21 +1,18 @@
 import dotenv from "dotenv";
-dotenv.config();
-import http from "http";
 import express from "express";
 import mongoose from "mongoose";
-
-//blog import
 import morgan from "morgan";
+import swaggerUi from "swagger-ui-express";
+import swaggerJsDoc from "swagger-jsdoc";
+// import swaggerDocument from "swagger-jsdoc";
 
-import {router as blogRoutes} from "./routes/blogRoutes.js";
-
+import { router as blogRoutes } from "./routes/blogRoutes.js";
 //Import Routes
 import { router as authRoute } from "./routes/auth.js";
-import { router as postRoute } from "./routes/posts.js";
+import { swaggerOptions } from "./swagger.js";
 
+dotenv.config();
 const app = express();
-
-
 
 //connect to DB
 const dbURI = process.env.DB_CONNECT;
@@ -28,21 +25,21 @@ mongoose.connect(dbURI, () => {
 app.use(express.json());
 
 //Blog middleware
-// !!middleware for every single request && Static files
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
-//!!Route Middlewares
-app.use("/api/user", authRoute); //means everthing in router's file must have "/api/user" as prefix.
-app.use("/api/posts", postRoute);
+//!!Route Middleware
+const swaggerSpec = swaggerJsDoc(swaggerOptions);
 
-//!!Blog request
-//!!Responding to the request
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
+
+app.use("/api/user", authRoute);
+
+
 app.get("/", (req, res) => {
   res.redirect("/blogs");
 });
 
-//!!About page
 app.get("/about", (req, res) => {
   res.render("about", { title: "About" });
 });
@@ -51,10 +48,10 @@ app.get("/about", (req, res) => {
 app.use("/blogs", blogRoutes);
 
 //!!404  page
-app.use("/*",(req, res) => {
+app.use("/*", (req, res) => {
   res.status(404).json({
-    status: 'fail',
-    message: "Not found"
+    status: "fail",
+    message: "Not found",
   });
 });
 
@@ -63,3 +60,5 @@ const PORT = process.env.PORT || 9000;
 app.listen(PORT, () => {
   console.log(`Server is running on ${PORT}`);
 });
+
+export default app;
