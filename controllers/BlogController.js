@@ -32,14 +32,10 @@ export const blog_details = async (req, res) => {
     });
 };
 
-export const blog_create_get = (req, res) => {
-  //   res.render("add-blog", { title: "Create_new" });
-  res.json({ Title: "hey! This is the form to Create new post!" });
-};
 
 //CREATING A POST
 export const blog_create_post = async (req, res) => {
-  const blog = new Blog(req.body); //this is the insitance of Blog ---in blog.js
+  
 
   //check an empty submission or invalid
   const { error } = blogValidation(req.body);
@@ -47,11 +43,8 @@ export const blog_create_post = async (req, res) => {
 
   //save  post
   try {
-     blog.save().then((result) => {
-      res.redirect("/blogs");
-
-      console.log("Hy! new post Added.");
-    });
+    const blog = await Blog.create(req.body)
+   return res.status(201).json(blog)
   } catch (error) {
     console.log(error)
     res.status(500).json({message: 'Internal server error'})

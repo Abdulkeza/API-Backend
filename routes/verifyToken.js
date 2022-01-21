@@ -5,8 +5,11 @@ const jwt = jsonwebtoken;
 
 export function auth (req, res, next){
     //assign a token for a request
-    const token = req.header('auth-token');      
-    if(!token) return res.status(401).send('Access Denied!') //if user haven't token, he can't access some resources
+    // const token = req.header('auth-token');      
+    const authHeader = req.headers["authorization"]
+    if(!authHeader) return res.status(401).send('Access Denied!') 
+
+    const token = authHeader.split(" ")[1];
 
     try {
         //verifying a req Token above with actual Token u have in .env file

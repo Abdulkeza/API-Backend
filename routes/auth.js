@@ -30,7 +30,7 @@ const router = Router();
  *      properties:
  *        name:
  *          type: string
- *          description: Every user must provide a name 
+ *          description: Every user must provide a name
  *        email:
  *          type: string
  *          description: email must be provided
@@ -82,10 +82,9 @@ const router = Router();
  *            password: u123
  */
 
-
 /**
  * @swagger
- * /api/user/register:
+ * /api/v1/user/register:
  *  post:
  *    summary: A user can make registration
  *    description: both name, email and password must be provided
@@ -97,7 +96,7 @@ const router = Router();
  *        application/json:
  *          schema:
  *            $ref: '#/components/schemas/User'
- * 
+ *
  *    responses:
  *      200:
  *        description: Successfully registered.
@@ -121,21 +120,23 @@ const router = Router();
 router.post("/register", async (req, res) => {
   //VALIDATING THE DATA BEFORE USER CREATED
   const { error } = registerValidation(req.body);
+  console.log(error, !!error);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.status(400).json({message: error.details[0].message});
   }
 
   //checking if the user is already in the database
   const emailExist = await User.findOne({
     email: req.body.email,
   });
-  if (emailExist) return res.status(400).send("Email already exists.");
+  if (emailExist)
+    return res.status(400).json({ message: "Email already exists." });
 
   //encrypting password (Hash pswds)
   const salt = await bcrypt.genSalt(10);
   const hashedPassword = await bcrypt.hash(req.body.password, salt);
 
-  //Creating a new User 
+  //Creating a new User
   const user = new User({
     name: req.body.name,
     email: req.body.email,
@@ -150,7 +151,7 @@ router.post("/register", async (req, res) => {
       user: user._id,
     });
   } catch (error) {
-   return res.status(400).send(error);
+    return res.status(400).send(error);
   }
 });
 
@@ -158,7 +159,7 @@ router.post("/register", async (req, res) => {
 
 /**
  * @swagger
- * /api/user/login:
+ * /api/v1/user/login:
  *  post:
  *    summary: A user must sign-in with his/her credentials
  *    description: A user must provide a valid email and password to login
@@ -183,18 +184,18 @@ router.post("/login", async (req, res) => {
   //Validating data before the user Logged In
   const { error } = loginValidation(req.body);
   if (error) {
-    return res.status(400).send(error.details[0].message);
+    return res.status(400).json({message: error.details[0].message});
   }
 
   //checking is the userEmail exist in db
   const user = await User.findOne({
     email: req.body.email,
   });
-  if (!user) return res.status(404).send("Email is not found!.");
+  if (!user) return res.status(404).json({message: "Invalid credentials!"});
 
   //Checking if password is valid
   const validPass = await bcrypt.compare(req.body.password, user.password);
-  if (!validPass) return res.status(400).send("Invalid userName or password");
+  if (!validPass) return res.status(400).json({message: "Invalid userName or password"});
 
   //Create and assign a token to the legged user
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
@@ -203,12 +204,11 @@ router.post("/login", async (req, res) => {
   // res.send("\nLogged In!");
 });
 
-
 //UPDATE A USER
 
 /**
  * @swagger
- * /api/user/{id}:
+ * /api/v1/user/{id}:
  *  put:
  *    security:
  *      - Token: []
@@ -230,20 +230,20 @@ router.post("/login", async (req, res) => {
  *        description: Internal error!
  */
 router.put("/:id", verify, async (req, res) => {
-  
   const id = req.params.id;
-   console.log(id);
+  console.log(id);
   // if(!id) return res.status(400).json({message: "User not found!"});
 
   try {
-    const updateUser = await User.findByIdAndUpdate(id, req.body, {new: true})
-    return res.status(200).json({name: req.body.name, email:req.body.email})
-    console.log("User updated!")
+    const updateUser = await User.findByIdAndUpdate(id, req.body, {
+      new: true,
+    });
+    return res.status(200).json({ name: req.body.name, email: req.body.email });
+    console.log("User updated!");
   } catch (error) {
-    console.log(error)
-    return res.status(500).json({message: "Internal server error!"})
+    console.log(error);
+    return res.status(500).json({ message: "Internal server error!" });
   }
-  
 });
 
 export { router };

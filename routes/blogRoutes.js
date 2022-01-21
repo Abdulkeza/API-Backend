@@ -2,7 +2,6 @@ import { Router } from "express";
 
 import {
   blog_index,
-  blog_create_get,
   blog_create_post,
   blog_details,
   blog_delete,
@@ -46,7 +45,7 @@ const router = Router();
 
 /**
  * @swagger
- * /blogs:
+ * /api/v1/blogs:
  *  get:
  *    summary: This route returns a list of all blogs
  *    responses:
@@ -67,7 +66,7 @@ router.get("/", blog_index);
 
 /**
  * @swagger
- * /blogs:
+ * /api/v1/blogs:
  *  post:
  *    security:
  *      - Token: []
@@ -102,7 +101,7 @@ router.post("/", verify, blog_create_post);
 
 /**
  * @swagger
- * /blogs/{id}:
+ * /api/v1/blogs/{id}:
  *  get:
  *    summary: This route returns the details of a specfic post
  *    description: The response should be formated in Json object
@@ -131,7 +130,7 @@ router.get("/:id", blog_details);
 
 /**
  * @swagger
- *  /blogs/{id}:
+ *  /api/v1/blogs/{id}:
  *    put:
  *      security:
  *        - Token: []
@@ -165,7 +164,7 @@ router.put("/:id", verify, blogUpdate);
 //!! Handling DELETE request
 /**
  * @swagger
- * /blogs/{id}:
+ * /api/v1/blogs/{id}:
  *    delete:
  *      security:
  *        - Token: []
