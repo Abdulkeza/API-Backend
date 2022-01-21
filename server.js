@@ -34,15 +34,11 @@ const swaggerSpec = swaggerJsDoc(swaggerOptions);
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
 app.use("/api/v1/user", authRoute);
-
+app.use("/api/v1/blogs", blogRoutes);
 
 app.get("/", (req, res) => {
-  res.redirect("/blogs");
+  return res.redirect("/api-docs");
 });
-
-
-//!! ROUTES (Displaying All blogs)
-app.use("/api/v1/blogs", blogRoutes);
 
 //!!404  page
 app.use("/*", (req, res) => {
