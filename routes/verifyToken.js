@@ -7,7 +7,7 @@ export function auth (req, res, next){
     //assign a token for a request
     // const token = req.header('auth-token');      
     const authHeader = req.headers["authorization"]
-    if(!authHeader) return res.status(401).send('Access Denied!') 
+    if(!authHeader) return res.status(401).json({message: 'Access Denied!'}) 
 
     const token = authHeader.split(" ")[1];
 

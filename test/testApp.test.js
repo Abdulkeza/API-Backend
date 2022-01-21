@@ -139,7 +139,7 @@ describe("User Authentication", async () => {
         .request(app)
         .post("/api/v1/user/register")
         .send(newUser);
-      console.log(register.body);
+      // console.log(register.body);
 
       register.should.have.status(200);
       register.body.should.be.a("object");

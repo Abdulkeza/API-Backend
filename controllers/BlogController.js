@@ -39,7 +39,7 @@ export const blog_create_post = async (req, res) => {
 
   //check an empty submission or invalid
   const { error } = blogValidation(req.body);
-  if (error) return res.status(400).send(error.details[0].message);
+  if (error) return res.status(400).json({message: error.details[0].message});
 
   //save  post
   try {
