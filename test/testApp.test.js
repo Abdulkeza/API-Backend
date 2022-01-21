@@ -25,7 +25,6 @@ describe("blogs", async () => {
 
       getAll.should.have.status(200);
       getAll.body.should.be.a("object");
-      // getAll.body.length.should.be.eql(0);
       // console.log(res.body);
     });
     //Test the Post route
@@ -47,7 +46,6 @@ describe("blogs", async () => {
 
         createRequest.should.have.status(201);
         createRequest.body.should.be.a("object");
-        // res.body.should.have.property("message").eql("Post successfully added");
         createRequest.body.should.have.property("title");
         createRequest.body.should.have.property("snippet");
         createRequest.body.should.have.property("body");
@@ -94,13 +92,11 @@ describe("blogs", async () => {
 
       newPost.should.have.status(200);
       newPost.body.should.be.a("object");
-      // res.body.should.have.property("message").eql("Blog updated");
-      // res.body.blog.should.have.property("title").eql("This staff is not working!");
     });
   });
 
   //Test DELETE
-  describe("/DELETE/:id book", () => {
+  describe("/DELETE/:id Blog post", () => {
     it("it should DELETE a blog given the id and must be Authorized", async () => {
       let blog = await Blog.create({
         title: "plz before delete..",
@@ -116,8 +112,6 @@ describe("blogs", async () => {
       deletePost.should.have.status(200);
       deletePost.body.should.be.a("object");
       deletePost.body.should.have.property("message");
-
-      // res.body.should.have.property("ok").eql(1);
     });
   });
 });
