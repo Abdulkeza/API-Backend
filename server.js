@@ -4,11 +4,11 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
-// import swaggerDocument from "swagger-jsdoc";
 
+//!!Router
 import { router as blogRoutes } from "./routes/blogRoutes.js";
-//Import Routes
 import { router as authRoute } from "./routes/auth.js";
+import { router as contactRoute } from "./routes/contactRoute.js";
 import { swaggerOptions } from "./swagger.js";
 
 dotenv.config();
@@ -24,7 +24,6 @@ mongoose.connect(dbURI, () => {
 //bellow line used to recognize the incoming Request Object as a JSON Object
 app.use(express.json());
 
-//Blog middleware
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan("dev"));
 
@@ -33,8 +32,9 @@ const swaggerSpec = swaggerJsDoc(swaggerOptions);
 
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 
-app.use("/api/v1/user", authRoute);
+app.use("/api/v1/users", authRoute);
 app.use("/api/v1/blogs", blogRoutes);
+app.use("/api/v1/contacts", contactRoute);
 
 app.get("/", (req, res) => {
   return res.redirect("/api-docs");
