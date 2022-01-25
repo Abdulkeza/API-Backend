@@ -7,7 +7,7 @@ const blogSchema = new schema(
       type: String,
       required: true,
     },
-    snippet: {
+    author: {
       type: String,
       required: true,
     },

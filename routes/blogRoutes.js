@@ -25,21 +25,21 @@ const router = Router();
  *      type: object
  *      required:
  *        - title
- *        - snippet
+ *        - author
  *        - body
  *      properties:
  *        title:
  *          type: string
  *          description: Every post must have title 
- *        snippet:
+ *        author:
  *          type: string
- *          description: This should be the summary of your post.
+ *          description: This should be the author of post.
  *        body:
  *          type: string
  *          description: This holds the content of the post.
  *      example:
  *        title: My post
- *        snippet: lemme post my self
+ *        author: I am author
  *        body: This is content of my post
  */
 
