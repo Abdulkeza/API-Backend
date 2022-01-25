@@ -3,13 +3,13 @@ import chai, { expect } from "chai";
 import chaiHttp from "chai-http";
 import Blog from "../model/blog.js";
 import { User } from "../model/User.js";
+import { Contact } from "../model/contactUs.js"
 
 let should = chai.should();
 
 chai.use(chaiHttp);
 
-var Token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWUxMzk5MDkwNTEzOWU0MDIyZTMwODQiLCJpYXQiOjE2NDI2NjkxMDh9.TMAyvdA4x6OD9hjGqDu5FLBddXA0Ua3cviiVtUFYvXg";
+var Token ="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2MWVkYzI4OGUwZjFiOTkzOGMzNDBkNWIiLCJpYXQiOjE2NDMxMDQzNTV9.muuNhvpTEUSM4AtZOUVZ-eJBlzirrQwpto1fvwJNP8A";
 
 describe("blogs", async () => {
   before(async () => {
@@ -127,17 +127,19 @@ describe("User Authentication", async () => {
 
   //register
   describe("POST New user", async () => {
-    let newUser = {
-      name: "abdul",
-      email: "abdul11@gmail.com",
-      password: "123@Abudl",
-    };
-
-    let userToken = Token;
+   
     it("It should Create a new user with valid inputs", async () => {
+      let newUser = {
+        name: "abdul",
+        email: "me12@gmail.com",
+        password: "123@Abudl",
+      };
+  
+      let userToken = Token;
+
       const register = await chai
         .request(app)
-        .post("/api/v1/user/register")
+        .post("/api/v1/users/register")
         .send(newUser);
       // console.log(register.body);
 
@@ -150,8 +152,8 @@ describe("User Authentication", async () => {
   //Login
   describe("/POST Login for registered user", async () => {
     it("It should return a Token for Logged-in user", async () => {
-      const login = await chai.request(app).post("/api/v1/user/login").send({
-        email: "abdul11@gmail.com",
+      const login = await chai.request(app).post("/api/v1/users/login").send({
+        email: "me12@gmail.com",
         password: "123@Abudl"
       });
 
@@ -163,3 +165,45 @@ describe("User Authentication", async () => {
     });
   });
 });
+
+
+//!!Contact-us test
+
+describe("CONTACT-US", async ()=>{
+ //Get all Messages
+ describe("get a list of messages ", () => {
+  it("It should return a list of messages", async () => {
+    const getAll = await chai.request(app).get("/api/v1/contacts");
+
+    getAll.should.have.status(200);
+    getAll.body.should.be.a("object");
+    // console.log(res.body);
+  });
+  //Test the Post route
+  describe("POST contact", () => {
+
+    it("It should POST a post with valid fields and all is required", async () => {
+      
+      let contact = {
+        name: "me Abdul",
+        email: "me1@gmail.com",
+        message: "Testing my contact",
+      };
+
+      const createRequest = await chai
+        .request(app)
+        .post("/api/v1/contacts/contactUs")
+        .send(contact)
+      console.log(createRequest.body);
+      // console.log("we were here");
+
+      createRequest.should.have.status(200);
+      createRequest.body.should.be.a("object");
+      createRequest.body.should.have.property("name");
+      createRequest.body.should.have.property("email");
+      createRequest.body.should.have.property("message");
+    });
+  });
+});
+
+})

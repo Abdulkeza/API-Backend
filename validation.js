@@ -30,7 +30,7 @@ const loginValidation = (data) => {
 const blogValidation = ((data)=>{
   const schema = Joi.object({
     title: Joi.string().min(3).required(),
-    snippet: Joi.string().min(3).required(),
+    author: Joi.string().min(3).required(),
     body: Joi.string().min(5).required(),
   });
 

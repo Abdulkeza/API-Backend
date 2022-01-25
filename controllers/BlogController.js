@@ -50,9 +50,10 @@ export const blog_create_post = async (req, res) => {
 
 //UPDATE POST
 export const blogUpdate = async (req, res) => {
-  const id = req.params.id;
+  const id = await req.params.id;
+  console.log(id.length)
 
-  if(id != 24) return res.status(400).json({status: 400, message: "Invalid id detected"})
+  if(id.length != 24) return res.status(400).json({status: 400, message: "Invalid id detected"})
 
   try {
   const result = await Blog.findById(id);
