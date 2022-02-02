@@ -152,6 +152,7 @@ router.get("/:id", messageDetails);
  */
 
 //!!Delete a Message
+// router.delete("/:id", verify, deleteMessage);
 router.delete("/:id", verify, deleteMessage);
 
 export { router };

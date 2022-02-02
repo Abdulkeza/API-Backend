@@ -4,6 +4,7 @@ import mongoose from "mongoose";
 import morgan from "morgan";
 import swaggerUi from "swagger-ui-express";
 import swaggerJsDoc from "swagger-jsdoc";
+import cors from "cors"
 
 //!!Router
 import { router as blogRoutes } from "./routes/blogRoutes.js";
@@ -13,6 +14,7 @@ import { swaggerOptions } from "./swagger.js";
 
 dotenv.config();
 const app = express();
+app.use(cors())
 
 //connect to DB
 const dbURI = process.env.DB_CONNECT;

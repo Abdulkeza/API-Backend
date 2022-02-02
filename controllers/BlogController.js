@@ -79,6 +79,7 @@ export const blog_delete = async (req, res) => {
   if (!result) return res.status(404).json({status: 404, message: `post Not found!` });
 
   const postDelete = await result.delete();
+  console.log(postDelete)
 
   if (postDelete) return res.status(200).json({status: 200, message: "post deleted" });
 
