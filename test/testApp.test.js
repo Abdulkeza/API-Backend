@@ -31,7 +31,7 @@ describe("blogs", async () => {
     describe("POST blog", () => {
       let blog = {
         title: "I am testing",
-        snippet: "can i pass",
+        author: "can i pass",
         body: "Testing ",
       };
 
@@ -47,7 +47,7 @@ describe("blogs", async () => {
         createRequest.should.have.status(201);
         createRequest.body.should.be.a("object");
         createRequest.body.should.have.property("title");
-        createRequest.body.should.have.property("snippet");
+        createRequest.body.should.have.property("author");
         createRequest.body.should.have.property("body");
       });
     });
@@ -58,7 +58,7 @@ describe("blogs", async () => {
     it("it should GET a blog by the given id", async () => {
       let blog = await Blog.create({
         title: "test GET for one blog",
-        snippet: "this is me back",
+        author: "this is me back",
         body: "Lemme check ",
       });
 
@@ -77,7 +77,7 @@ describe("blogs", async () => {
     it("it should UPDATE a blog by the given id and must be Authorized ", async () => {
       let blog = await Blog.create({
         title: "test PUT for one blog",
-        snippet: "this is me back",
+        author: "this is me back",
         body: "Lemme check ",
       });
       const newPost = await chai
@@ -85,7 +85,7 @@ describe("blogs", async () => {
         .put("/api/v1/blogs/" + blog.id)
         .send({
           title: "This staff is not working!",
-          snippet: "This is the last !!!!",
+          author: "This is the last !!!!",
           body: "Lemme check ",
         })
         .set("Authorization", "Bearer " + Token);
@@ -100,7 +100,7 @@ describe("blogs", async () => {
     it("it should DELETE a blog given the id and must be Authorized", async () => {
       let blog = await Blog.create({
         title: "plz before delete..",
-        snippet: "Delete a post",
+        author: "Delete a post",
         body: "lemme se if i can delete",
       });
 
@@ -131,8 +131,8 @@ describe("User Authentication", async () => {
     it("It should Create a new user with valid inputs", async () => {
       let newUser = {
         name: "abdul",
-        email: "me12@gmail.com",
-        password: "123@Abudl",
+        email: "abdul@gmail.com",
+        password: "123",
       };
   
       let userToken = Token;
@@ -153,8 +153,8 @@ describe("User Authentication", async () => {
   describe("/POST Login for registered user", async () => {
     it("It should return a Token for Logged-in user", async () => {
       const login = await chai.request(app).post("/api/v1/users/login").send({
-        email: "me12@gmail.com",
-        password: "123@Abudl"
+        email: "abdul@gmail.com",
+        password: "123"
       });
 
       console.log(login.body);
@@ -185,7 +185,7 @@ describe("CONTACT-US", async ()=>{
     it("It should POST a post with valid fields and all is required", async () => {
       
       let contact = {
-        name: "me Abdul",
+        name: "Abdul Adeodatus",
         email: "me1@gmail.com",
         message: "Testing my contact",
       };
@@ -197,7 +197,7 @@ describe("CONTACT-US", async ()=>{
       console.log(createRequest.body);
       // console.log("we were here");
 
-      createRequest.should.have.status(200);
+      createRequest.should.have.status(201);
       createRequest.body.should.be.a("object");
       createRequest.body.should.have.property("name");
       createRequest.body.should.have.property("email");

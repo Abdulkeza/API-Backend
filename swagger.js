@@ -22,3 +22,4 @@ export const swaggerOptions = {
   },
   apis: ["./routes/*.js"],
 };
+

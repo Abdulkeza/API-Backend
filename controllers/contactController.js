@@ -34,11 +34,10 @@ export const createMessage = async (req, res) =>{
     try {
       const savedMessage = await contact.save();
       console.log(savedMessage.id);
-      return res
-        .status(201)
-        .json({status: 201, message: "Successfully sent, we will talk soon." });
+      return res.status(201).json({status:"success", message: "Successfully sent, we will talk soon." });
     } catch (error) {
-      return res.status(500).json({status: 500, message: "Internal server" });
+      console.log(error)
+      return res.status(500).json({status: 500, message: "Internal server error" });
     }
 }
 

@@ -30,7 +30,7 @@ const router = Router();
  *      properties:
  *        title:
  *          type: string
- *          description: Every post must have title 
+ *          description: Every post must have title
  *        author:
  *          type: string
  *          description: This should be the author of post.
@@ -52,7 +52,7 @@ const router = Router();
  *      200:
  *        description: Success
  *      500:
- *        description: Internal Server Error 
+ *        description: Internal Server Error
  *        content:
  *          application/json:
  *            schema:
@@ -60,7 +60,6 @@ const router = Router();
  *              items:
  *                $ref: '#/components/schemas/Blog'
  */
-
 
 router.get("/", blog_index);
 
@@ -92,7 +91,7 @@ router.get("/", blog_index);
  *      500:
  *        description: Internal server error!
  *      401:
- *        description: Access denied!   
+ *        description: Access denied!
  */
 
 // router.get("/add-blog", blog_create_get);
@@ -190,4 +189,3 @@ router.put("/:id", verify, blogUpdate);
 router.delete("/:id", verify, blog_delete);
 
 export { router };
-

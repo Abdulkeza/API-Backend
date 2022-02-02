@@ -118,9 +118,11 @@ const router = Router();
  */
 
 router.post("/register", async (req, res) => {
+  console.log(req.body);
+
   //VALIDATING THE DATA BEFORE USER CREATED
   const { error } = registerValidation(req.body);
-  console.log(error, !!error);
+  // console.log(error, !!error);
   if (error) {
     return res
       .status(400)
@@ -202,8 +204,8 @@ router.post("/login", async (req, res) => {
   });
   if (!user)
     return res
-      .status(404)
-      .json({ status: 404, message: "Invalid credentials!" });
+      .status(400)
+      .json({ status: 400, message: "Invalid credentials!" });
 
   //Checking if password is valid
   const validPass = await bcrypt.compare(req.body.password, user.password);
@@ -214,7 +216,7 @@ router.post("/login", async (req, res) => {
 
   //Create and assign a token to the legged user
   const token = jwt.sign({ _id: user._id }, process.env.TOKEN_SECRET);
-  res.status(200).json({ "auth-token": token }); // adding token to the header to the user'
+  res.status(200).json({ authToken: token, name: user.name, id: user._id }); // adding token to the header to the user'
 
   // res.send("\nLogged In!");
 });
@@ -260,7 +262,7 @@ router.put("/:id", verify, async (req, res) => {
       new: true,
     });
     console.log("User updated!");
-    return res.status(200).json({ name: req.body.name, email: req.body.email });
+    return res.status(200).json({status: "Success", name: req.body.name, email: req.body.email });
   } catch (error) {
     console.log(error);
     return res
@@ -346,7 +348,7 @@ router.get("/", verify, async (req, res) => {
     .then((result) => {
       return res
         .status(200)
-        .json({ title: "All Users", status: 200, messages: result });
+        .json({ title: "All Users", status: 200, users: result });
     })
     .catch((err) => {
       console.log(err);

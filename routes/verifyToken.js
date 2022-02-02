@@ -18,6 +18,6 @@ export function auth (req, res, next){
 
         next();
     } catch (error) {
-        res.status(400).send('Invalid Token');
+        res.status(400).json({status: "Fail", message: 'Invalid Token'});
     }
 }
